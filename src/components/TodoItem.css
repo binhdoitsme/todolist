@@ -1,0 +1,17 @@
+.todo-item {
+    font-style: oblique;
+    display: inline-block;
+    box-sizing: border-box;
+    min-width: 16rem;
+    width: calc(100% - 3rem);
+}
+
+/* button.delete-btn {
+    color: white;
+    background-color: red;
+}
+
+button.delete-btn:hover {
+    background-color: gray;
+    color: white;
+} */

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './AddTodoItemBtn.css'
 
 class AddTodoItemBtn extends Component {
     constructor(props) {
@@ -7,7 +8,7 @@ class AddTodoItemBtn extends Component {
     }
 
     render() {
-        return <button onClick={this.handleClick}>+ Add Todo Item</button>
+        return <button className="add-btn" onClick={this.handleClick}>+ Add Todo Item</button>
     }
 }
 

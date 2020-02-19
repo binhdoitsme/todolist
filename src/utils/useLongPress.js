@@ -1,25 +1,25 @@
 import { useState, useEffect } from 'react';
 
-export default function useLongPress(callback = () => {}, timeout = 500) {
-    const [startLongPress, setStartLongPress] = useState(false);
+export default function useLongPress(callback = (event) => {}, timeout = 500) {
+    const [startLongPress, setStartLongPress] = useState({status: false, eventTarget: undefined});
     useEffect(() => {
         let timerId;
-        if (startLongPress) {
-            timerId = setTimeout(callback, timeout);
-        } else {
-            clearTimeout(timerId);
+        if (startLongPress.status) {
+            timerId = setTimeout(callback.bind(this, startLongPress.eventTarget), timeout);
         }
-
         return () => {
+            if (startLongPress.status) {
+                setStartLongPress({status:false, eventTarget: undefined});
+            }
             clearTimeout(timerId);
         };
-    }, [startLongPress]);
+    }, [callback, timeout, startLongPress]);
 
     return {
-        onMouseDown: () => setStartLongPress(true),
-        onMouseUp: () => setStartLongPress(false),
-        onMouseLeave: () => setStartLongPress(false),
-        onTouchStart: () => setStartLongPress(true),
-        onTouchEnd: () => setStartLongPress(false)
+        onMouseDown: (event) => setStartLongPress({status: true, eventTarget: event.currentTarget}),
+        onMouseUp: () => setStartLongPress({status: false, eventTarget: undefined}),
+        onMouseLeave: () => setStartLongPress({status: false, eventTarget: undefined}),
+        onTouchStart: (event) => setStartLongPress({status: true, eventTarget: event.currentTarget}),
+        onTouchEnd: () => setStartLongPress({status: false, eventTarget: undefined})
     };
 }
