@@ -7,6 +7,26 @@ import useLongPress from './utils/useLongPress';
 function App() {
   const [todoItems, setTodoItems] = useState([]);
 
+  const todoItemComparer = (a, b) => {
+    if (a.done !== b.done) {
+      if (a.done) {
+        return 1;
+      } else {
+        return -1;
+      }
+    } else {
+      if (a.itemContent === b.itemContent) {
+        return 0;
+      } else {
+        return a.itemContent < b.itemContent ? -1 : 1;
+      }
+    }
+  }
+
+  const sortTodoItems = () => {
+    setTodoItems(items => items.sort(todoItemComparer));
+  }
+
   const handleAddBtn = () => {
     setTodoItems(items => [...items, { itemContent: '', filled: false, done: false, editing: true }]);
   };
@@ -20,6 +40,7 @@ function App() {
     const value = event.target.value;
     if (value.length === 0) {
       setTodoItems(items => {
+        sortTodoItems();
         return items.filter(itm => itm.editing !== true);
       });
     } else {
@@ -31,6 +52,7 @@ function App() {
     const currentItemIndex = todoItems.findIndex(itm => itm.itemContent === event.target.previousSibling.textContent && !itm.done);
     setTodoItems(function (items) {
       items.splice(currentItemIndex, 1);
+      sortTodoItems();
       return Array.from(items);
     });
   };
@@ -44,6 +66,7 @@ function App() {
       if (currentItem.itemContent === '') {
         items.splice(setPos, 1);
       }
+      sortTodoItems();
       return Array.from(items);
     });
   };
@@ -56,7 +79,7 @@ function App() {
     if (event.key === "Enter") {
       handleSubmit(event.target.value);
     } else if (event.key === "Escape") {
-      event.currentTarget.value = '';
+      // event.currentTarget.value = '';
       handleFocusLost(event);
     }
   };
@@ -78,6 +101,7 @@ function App() {
     const value = eventTarget.textContent;
     setTodoItems(items => {
       items.find(itm => itm.itemContent === value).done = true;
+      items.sort(todoItemComparer);
       return Array.from(items);
     })
   };

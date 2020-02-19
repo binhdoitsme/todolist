@@ -12,23 +12,24 @@ class TodoItem extends Component {
 
     render() {
         if (this.props.editing) {
-            return <input type='text' defaultValue={this.props.itemContent} autoFocus 
-                        onBlur={this.handleFocusLost} onKeyUp={this.handleKeyPress} />;
+            return <input type='text' defaultValue={this.props.itemContent} autoFocus
+                onBlur={this.handleFocusLost} onKeyUp={this.handleKeyPress} />;
         }
         else if (!this.props.editing & !this.props.done) {
             return (
                 <>
                     <span className="todo-item" onDoubleClick={this.handleDoubleClick} onMouseDown={this.props.onMouseDown}
                         onMouseUp={this.props.onMouseUp} onMouseLeave={this.props.onMouseLeave}
-                        onTouchStart={this.props.onTouchStart} onTouchEnd={this.props.onTouchEnd}>{this.props.itemContent}</span>
+                        onTouchStart={this.props.onTouchStart} onTouchEnd={this.props.onTouchEnd}>
+                        {this.props.itemContent}</span>
                     <button className="delete-btn" onClick={this.handleItemDelete}>X</button>
                 </>
             );
         } else {
             return (
                 <>
-                <span className="todo-item done">{this.props.itemContent}</span>
-                <button disabled className={"delete-btn hidden"}>X</button>
+                    <span className="todo-item done">{this.props.itemContent}</span>
+                    <button disabled className={"delete-btn hidden"}>X</button>
                 </>
             );
         }

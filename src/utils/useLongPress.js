@@ -18,7 +18,10 @@ export default function useLongPress(callback = (event) => {}, timeout = 500) {
     return {
         onMouseDown: (event) => setStartLongPress({status: true, eventTarget: event.currentTarget}),
         onMouseUp: () => setStartLongPress({status: false, eventTarget: undefined}),
-        onMouseLeave: () => setStartLongPress({status: false, eventTarget: undefined}),
+        onMouseLeave: () => {
+            if (startLongPress.status && startLongPress.eventTarget) 
+                setStartLongPress({status: false, eventTarget: undefined})
+        },
         onTouchStart: (event) => setStartLongPress({status: true, eventTarget: event.currentTarget}),
         onTouchEnd: () => setStartLongPress({status: false, eventTarget: undefined})
     };
