@@ -4,7 +4,7 @@
 }
 
 span {
-  padding: 0 1rem 0 0.5rem;
+  padding: 0 2rem 0 1.5rem;
 }
 
 ul {
@@ -24,7 +24,6 @@ li.done {
 
 li {
   list-style: none;
-  padding: 0 1rem;
   border: 1px solid grey;
   border-collapse: collapse;
   transition: background-color .5s ease;
@@ -64,4 +63,10 @@ button:hover {
 
 ul {
   margin: 0;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+  box-sizing: border-box;
 }
+
+ul::-webkit-scrollbar { width: 0 !important }

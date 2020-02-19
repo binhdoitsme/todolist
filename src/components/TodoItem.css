@@ -6,12 +6,12 @@
     width: calc(100% - 3rem);
 }
 
-/* button.delete-btn {
+button.delete-btn {
     color: white;
-    background-color: red;
+    background-color: #ff231c;
 }
 
 button.delete-btn:hover {
-    background-color: gray;
     color: white;
-} */
+    background-color: #ff7777;
+}

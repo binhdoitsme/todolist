@@ -39,7 +39,7 @@ function App() {
     setTodoItems(function (items) {
       const setPos = items.findIndex(itm => itm.editing === true);
       const currentItem = items[setPos];
-      currentItem.itemContent = value !== '' ? value : currentItem.itemContent;
+      currentItem.itemContent = value.trim() !== '' ? value.trim() : currentItem.itemContent;
       currentItem.editing = false;
       if (currentItem.itemContent === '') {
         items.splice(setPos, 1);
