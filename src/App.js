@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import './App.css';
 import AddTodoItemBtn from './components/AddTodoItemBtn';
 import TodoItem from './components/TodoItem';
@@ -28,7 +28,13 @@ function App() {
   }
 
   const handleAddBtn = () => {
-    setTodoItems(items => [...items, { itemContent: '', filled: false, done: false, editing: true }]);
+    setTodoItems(items => [...items, {
+      itemContent: '',
+      filled: false,
+      done: false,
+      editing: true,
+      handleDelete: () => { }
+    }]);
   };
 
   // only one item can be edited at a time
@@ -48,14 +54,19 @@ function App() {
     }
   };
 
-  const handleDeleteBtn = (event) => {
-    const currentItemIndex = todoItems.findIndex(itm => itm.itemContent === event.target.previousSibling.textContent && !itm.done);
-    setTodoItems(function (items) {
-      items.splice(currentItemIndex, 1);
-      sortTodoItems();
-      return Array.from(items);
-    });
-  };
+  const deleteHandler = useCallback((event) => {
+    console.log(`no of todo items: ${todoItems.length}`);
+    const currentItemIndex = todoItems.findIndex(itm => itm.itemContent === event.target.previousSibling.textContent && itm.done === false);
+    if (currentItemIndex >= 0) {
+      setTodoItems(function (items) {
+        items.splice(currentItemIndex, 1);
+        items.sort(todoItemComparer);
+        return Array.from(items);
+      });
+    }
+  }, [todoItems]);
+
+  console.log(`real no of todo items: ${todoItems.length}`);
 
   const handleSubmit = (value) => {
     setTodoItems(function (items) {
@@ -66,7 +77,7 @@ function App() {
       if (currentItem.itemContent === '') {
         items.splice(setPos, 1);
       }
-      sortTodoItems();
+      items.sort(todoItemComparer);
       return Array.from(items);
     });
   };
@@ -115,7 +126,7 @@ function App() {
         {todoItems.map((itm, index) =>
           <li key={index} className={itm.done ? 'done' : ''}>
             {<TodoItem itemContent={itm.itemContent} done={itm.done} editing={itm.editing} handleFocusLost={handleFocusLost}
-              handleItemDelete={handleDeleteBtn} handleKeyPress={handleKeyPress} handleDoubleClick={handleDoubleClick} 
+              handleItemDelete={deleteHandler} handleKeyPress={handleKeyPress} handleDoubleClick={handleDoubleClick}
               {...longMousePress} />}
           </li>)}
       </ul>

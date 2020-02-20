@@ -5,7 +5,6 @@ class TodoItem extends Component {
     constructor(props) {
         super(props);
         this.handleFocusLost = props.handleFocusLost.bind(this);
-        this.handleItemDelete = props.handleItemDelete.bind(this);
         this.handleKeyPress = props.handleKeyPress.bind(this);
         this.handleDoubleClick = props.handleDoubleClick.bind(this);
     }
@@ -22,7 +21,7 @@ class TodoItem extends Component {
                         onMouseUp={this.props.onMouseUp} onMouseLeave={this.props.onMouseLeave}
                         onTouchStart={this.props.onTouchStart} onTouchEnd={this.props.onTouchEnd}>
                         {this.props.itemContent}</span>
-                    <button className="delete-btn" onClick={this.handleItemDelete}>X</button>
+                    <button className="delete-btn" onClick={this.props.handleItemDelete}>X</button>
                 </>
             );
         } else {
